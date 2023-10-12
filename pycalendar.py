@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Generate a printable calendar in PDF format, suitable for embedding
 into another document.
@@ -28,10 +28,12 @@ TODO:
 from __future__ import (absolute_import, division, print_function,
                         with_statement, unicode_literals)
 
-__author__ = "Bill Mill; Stephan Sokolow (deitarion/SSokolow)"
+__author__ = "Bill Mill; Stephan Sokolow (deitarion/SSokolow); James Powell"
 __license__ = "CC0-1.0"  # https://creativecommons.org/publicdomain/zero/1.0/
 
-import calendar, collections, datetime
+import calendar
+import collections
+import datetime
 from contextlib import contextmanager
 
 from reportlab.lib import pagesizes
@@ -49,12 +51,14 @@ Font = collections.namedtuple('Font', ['name', 'size'])
 Geom = collections.namedtuple('Geom', ['x', 'y', 'width', 'height'])
 Size = collections.namedtuple('Size', ['width', 'height'])
 
+
 @contextmanager
 def save_state(canvas):
     """Simple context manager to tidy up saving and restoring canvas state"""
     canvas.saveState()
     yield
     canvas.restoreState()
+
 
 def add_calendar_page(canvas, rect, datetime_obj, cell_cb,
                       first_weekday=calendar.SUNDAY):
@@ -99,7 +103,6 @@ def add_calendar_page(canvas, rect, datetime_obj, cell_cb,
                 canvas.setFont(*font)
                 canvas.setLineWidth(line_width)
 
-
                 cell_cb(canvas, day, Geom(
                     x=rect.x + (cellsize.width * col),
                     y=rect.y + ((rows - row) * cellsize.height),
@@ -109,6 +112,7 @@ def add_calendar_page(canvas, rect, datetime_obj, cell_cb,
     # finish this page
     canvas.showPage()
     return canvas
+
 
 def draw_cell(canvas, day, rect, font, scale_factor):
     """Draw a calendar cell with the given characteristics
@@ -147,6 +151,7 @@ def draw_cell(canvas, day, rect, font, scale_factor):
                       text_y + (margin.height * 0.1),
                       ordinal_str)
 
+
 def generate_pdf(datetime_obj, outfile, size, first_weekday=calendar.SUNDAY):
     """Helper to apply add_calendar_page to save a ready-to-print file to disk.
 
@@ -166,6 +171,7 @@ def generate_pdf(datetime_obj, outfile, size, first_weekday=calendar.SUNDAY):
     add_calendar_page(canvas,
                       Geom(wmar, hmar, size.width, size.height),
                       datetime_obj, draw_cell, first_weekday).save()
+
 
 if __name__ == "__main__":
     generate_pdf(datetime.datetime.now(), 'calendar.pdf',
