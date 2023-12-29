@@ -61,7 +61,7 @@ def save_state(canvas):
 
 
 def add_calendar_page(canvas, rect, datetime_obj, cell_cb,
-                      first_weekday=calendar.SUNDAY):
+                      first_weekday=calendar.MONDAY):
     """Create a one-month pdf calendar, and return the canvas
 
     @param rect: A C{Geom} or 4-item iterable of floats defining the shape of
@@ -150,9 +150,16 @@ def draw_cell(canvas, day, rect, font, scale_factor):
     canvas.drawString(text_x + number_width,
                       text_y + (margin.height * 0.1),
                       ordinal_str)
+    # JP: dummy text
+    smallfont = Font('Helvetica', scale_factor * 0.018)
+    canvas.setFont(*smallfont)
+    for rownum in range(1,4):
+        canvas.drawString(text_x,
+                          text_y - (smallfont.size * rownum),
+                          'DUMMY %s' % rownum)
 
 
-def generate_pdf(datetime_obj, outfile, size, first_weekday=calendar.SUNDAY):
+def generate_pdf(datetime_obj, outfile, size, first_weekday=calendar.MONDAY):
     """Helper to apply add_calendar_page to save a ready-to-print file to disk.
 
     @param datetime_obj: A Python C{datetime} object specifying the month
