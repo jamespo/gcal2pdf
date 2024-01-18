@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Generate a printable calendar in PDF format, suitable for embedding
-into another document.
+"""Generate a printable calendar in PDF format, pulling events from
+Google Calendar.
 
-Tested with Python 2.7.
+Tested with Python 3.11
 
 Dependencies:
-- Python
+- Python 3
 - Reportlab
+- Google Calendar APIs
 
 Resources Used:
 - https://stackoverflow.com/a/37443801/435253
   (Originally present at http://billmill.org/calendar )
 - https://www.reportlab.com/docs/reportlab-userguide.pdf
+- https://gist.github.com/ssokolow/7eace74070778abe637bcd56b105e0d4
 
 Originally created by Bill Mill on 11/16/05, this script is in the public
 domain. There are no express warranties, so if you mess stuff up with this
@@ -24,9 +26,6 @@ TODO:
 - Implement diagonal/overlapped cells for months which touch six weeks to avoid
   wasting space on six rows.
 """
-
-from __future__ import (absolute_import, division, print_function,
-                        with_statement, unicode_literals)
 
 __author__ = "Bill Mill; Stephan Sokolow (deitarion/SSokolow); James Powell"
 __license__ = "CC0-1.0"  # https://creativecommons.org/publicdomain/zero/1.0/
